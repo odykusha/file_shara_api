@@ -16,18 +16,15 @@ OAuth = " *** "		# http://api.yandex.ru/oauth/doc/dg/tasks/get-oauth-token.xml
 def err_not_found(error):
     return 'WTF 404, %s, спробуй ще' % error
 
-
 @app.errorhandler(500)
 def err_server(error):
     return 'WTF 500, %s' % error
-
-
 #-----------------------------------------------------------------------
 #-------------------- API ---------------------
-
 @app.route('/', methods=['POST', 'GET'])
 def APIgetList():
     URL_GET_LIST = 'https://cloud-api.yandex.net:443/v1/disk/resources/?path=%2FAPI'
+    URL_PUBLIC = 'https://cloud-api.yandex.net/v1/disk/resources/publish/?path=%2FAPI%2F'
     pLIST = []
 
     if request.method == 'POST':
@@ -40,11 +37,8 @@ def APIgetList():
 
         # GET LINK
         URL_UPLOAD = 'https://cloud-api.yandex.net:443/v1/disk/resources/upload/?path=%2FAPI%2F'
-        URL_UPLOAD += filename
-
-        response = REQUEST(URL_UPLOAD, 'GET')
+        response = REQUEST(URL_UPLOAD+filename, 'GET')
         STR_resp = str(response.read() )
-
         link_upload = STR_resp[ STR_resp.find('"https')+1  :  STR_resp.find('","', STR_resp.find('"https')+1) ]
 
         # PUT
@@ -54,24 +48,22 @@ def APIgetList():
         req.add_header('Content-Length', file_length)
         response = urllib.request.urlopen(req)
 
+        # create public link
+        REQUEST(URL_PUBLIC+filename, 'PUT')
         return redirect(url_for('APIgetList'))
-
 
     # GET list
     response = REQUEST(URL_GET_LIST, 'GET')
     STR_resp = str(response.read() )
     parse_list = STR_resp[  STR_resp.find('{')+1  :  STR_resp.find('}]', STR_resp.find('{')+1)  ].split('},{')
-
     for i in parse_list:
         pLIST.append( PARSE(i) )
-
     return render_template('downloadAPI.html', files=pLIST, diskSIZE = 'API yDISK' )
 
 
 @app.route('/download/<filename>')
 def APIdownload(filename):
     URL_DOWNLOAD = 'https://cloud-api.yandex.net:443/v1/disk/resources/?path=%2FAPI'
-
     response = REQUEST(URL_DOWNLOAD, 'GET')
     resp_str = str( response.read() )
 
@@ -81,17 +73,13 @@ def APIdownload(filename):
         NAME = i[  i.find('"name')+1  :  i.find('","', i.find('"name')+1)  ].split('":"')[1]  # "name": "filename"
         if NAME == filename:
             LINK = i[  i.find('"public_url')+1  :  i.find('","', i.find('"public_url')+1)  ].split('":"')[1]
-
     return redirect( LINK )
 
 
 @app.route('/delete/<filename>', methods=['GET', 'DELETE'])
 def APIdelete(filename):
     URL_DELETE = 'https://cloud-api.yandex.net:443/v1/disk/resources/?path=%2FAPI%2F'
-    URL_DELETE += filename
-
-    response = REQUEST(URL_DELETE, 'DELETE')
-
+    response = REQUEST(URL_DELETE+filename, 'DELETE')
     return redirect( url_for('APIgetList') )
 #---------------- DEF ----------------------------
 def REQUEST(url, method):
@@ -108,9 +96,7 @@ def PARSE(res):
         SIZE = res[  res.find('","size')+1  :  res.find('","', res.find('","size')+1)  ].split('":')[1]
         DATE_CREATE = res[  res.find('"created')+1  :  res.find('","', res.find('"created')+1)  ].split('":"')[1]
         DATE_MODIFY = res[  res.find('"modified')+1  :  res.find('","', res.find('"modified')+1)  ].split('":"')[1]
-
     return NAME, SIZE, DATE_CREATE, DATE_MODIFY
-
 #-----------------------------------------------------------------------
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
