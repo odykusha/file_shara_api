@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #444;
+}
+
+div.text1 {
+	color: silver;
+	font-size: 11px;
+	text-align: right;
+}
+
+
+p {
+	color: silver;
+}
+
+
+.table1 {
+ border: 1;
+ width: 920px;
+} 
+
+.table1 th {
+   background-color: #99CCCC;
+ /*  height: 5px;   */
+   font-size: 13px;
+    color: #003399;
+}
+
+
+.table1 tr {
+   background-color: #E8EDFF; 
+   height: 1px;
+   font-size: 13px;
+}
+   
+.table1 tr:hover {
+   background-color: #c2efef;
+}
+
+.table1 td:hover  {
+   background-color: #c2efef; 
+   height: 1px;
+   font-size: 14px;
+   
+}
+
+
+
+
+/*
+ * Create dark grey header with a white logo
+ */
+  
+header {
+  background-color: #2B2B2B;
+  height: 35px;
+  width: 100%;
+  opacity: .9;
+/*  color: #0000; */
+  margin-bottom: 10px;
+  
+}
+ 
+header h1.logo {
+  margin: 0;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  float: left;
+}
+ 
+header h1.logo:hover {
+  color: #fff;
+  text-decoration: none;
+}
+ 
+/*
+ * Center the body content
+ */
+  
+.container {
+  width: 940px;
+  margin: 0 auto;
+  color: #999;
+}
+ 
+div.jumbo {
+  padding: 10px 0 10px 0;
+  background-color: #eeeeee;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+ 
+h2 {
+  font-size: 3em;
+  margin-top: 40px;
+  text-align: center;
+  letter-spacing: -2px;
+  
+}
+ 
+h3 {
+  font-size: 1.7em;
+  font-weight: 100;
+  margin-top: 30px;
+  text-align: center;
+  letter-spacing: -1px;
+  color: #999;
+}
+
+
+a {
+
+ /* height: 25px;  */
+  width: 100%;
+  opacity: .9;
+  color: #000000;
+/*  margin-bottom: 24px; */
+    margin: 1;
+ /* text-transform: uppercase;*/
+}

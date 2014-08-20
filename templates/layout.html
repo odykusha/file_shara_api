@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <title>Flask: Upload Files API</title>    
+    <strong><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+            <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">  </strong>
+  </head>
+  <body <body link="#C0C0C0" vlink="#808080" alink="#FF0000">
+    <header>
+	  <div class="container">
+		  
+		  <table width=100%>
+		  <tr>
+			<td>	 
+		  
+		  <form action="" method=post enctype=multipart/form-data>
+                       <p><input type=file name=file value=Вибрати>
+			 <input type=submit value=Залити> 
+		  </form>	 
+			</td>
+		    <td>
+		  
+			<div class="text1"> disk size: {{ diskSIZE }} </div>
+		  
+ 		    </td> 
+		  </tr> 
+		  </table>
+			
+          
+     </div>
+   </header>
+ 
+    <div class="container" align="center">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="jumbo" >
+
+<table class="table1">
+<thead>
+<tr>
+<th> Ім'я файлу  </th>
+<th width="55"> Розмір, байт </th>
+<th width="120"> Дата створення </th>
+<th width="120"> Дата модифікації </th>
+<th width="60"> Видалення </th>
+</tr>
+</thead>
+
+{% for i in files %}
+<tr>
+<td> <small> <a href="download/{{ i[0] }}"> {{ i[0] }} </a>  </small></td>
+<td> <small> {{ i[1] }} </small></td>
+<td> <small> {{ i[2] }} </small></td>
+<td> <small> {{ i[3] }} </small></td>
+<td> <form action="{{ url_for('APIdelete', filename=i[0]) }}" method="DELETE">
+    <input type="hidden" name="_method" value="DELETE" />
+    <input type="submit" value="видалити" />
+     </form>  </td>
+</tr>
+{% endfor %}
+
+</table>
+
+<small> {{ text }} </small>
+
+</div>
+{% endblock %}
+
