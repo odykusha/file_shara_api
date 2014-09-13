@@ -10,7 +10,7 @@ import urllib.parse
 class API_yDISK:
     def __init__(self):
         # http://api.yandex.ru/oauth/doc/dg/tasks/get-oauth-token.xml
-        self.OAuth = "abf40cfcd4624b77aed80844b7416a02"
+        self.OAuth = " *** "
 
     def get_list(self):
         get_list_url = 'https://cloud-api.yandex.net:443/v1/disk/resources/?path=%2FAPI'
