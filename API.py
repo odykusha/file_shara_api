@@ -74,6 +74,21 @@ class API_yDISK:
         self.send_request(public_url + file_name, 'PUT')
         return True
 
+    def get_disk_size(self):
+        root_url = 'https://cloud-api.yandex.net:443/v1/disk'
+        response = self.send_request(root_url, 'GET')
+        resp_str = str(response.read())
+        #parse
+        total_space = int(resp_str[resp_str.find('"total_space":') + 1:
+                          resp_str.find(',"',
+                          resp_str.find('"total_space":') + 1)].split(':')[1]
+                          )
+        used_space = int(resp_str[resp_str.find('"used_space":') + 1:
+                         resp_str.find('}',
+                         resp_str.find('"used_space":') + 1)].split(':')[1]
+                         )
+        return str(self.bytes2human(used_space) + '/' + self.bytes2human(total_space))
+
     def send_request(self, url, method):
         req = urllib.request.Request(url)
         req.get_method = lambda: method
@@ -98,3 +113,14 @@ class API_yDISK:
                               res.find('","',
                               res.find('"modified') + 1)].split('":"')[1]
         return NAME, SIZE, DATE_CREATE, DATE_MODIFY
+
+    def bytes2human(self, n):
+        symbols = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
+        prefix = {}
+        for i, s in enumerate(symbols):
+            prefix[s] = 1 << (i + 1) * 10
+        for s in reversed(symbols):
+            if n >= prefix[s]:
+                value = float(n) / prefix[s]
+                return '%.2f%s' % (value, s)
+        return "%sB" % n

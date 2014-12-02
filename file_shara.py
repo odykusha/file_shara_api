@@ -30,16 +30,16 @@ api = API_yDISK()
 
 @app.route('/', methods=['POST', 'GET'])
 def APIgetList():
-    # send file on yandex disk
+    # send file to yandex disk
     if request.method == 'POST':
         ufile = request.files['file']
         api.upload_file(ufile)
         return redirect(url_for('APIgetList'))
     # GET list
     pLIST = api.get_list()
-    return render_template('downloadAPI.html',
+    return render_template('downloadAPI_fs.html',
                            files=pLIST,
-                           diskSIZE='API yDISK')
+                           diskSIZE=api.get_disk_size())
 
 
 @app.route('/download/<filename>')
