@@ -84,10 +84,11 @@ class API_yDISK:
                           resp_str.find('"total_space":') + 1)].split(':')[1]
                           )
         used_space = int(resp_str[resp_str.find('"used_space":') + 1:
-                         resp_str.find('}',
+                         resp_str.find(',"',
                          resp_str.find('"used_space":') + 1)].split(':')[1]
                          )
-        return str(self.bytes2human(used_space) + '/' + self.bytes2human(total_space))
+        return str(self.bytes2human(used_space) + '/' +
+                   self.bytes2human(total_space))
 
     def send_request(self, url, method):
         req = urllib.request.Request(url)
@@ -103,9 +104,7 @@ class API_yDISK:
             NAME = res[res.find('"name') + 1:
                        res.find('","',
                        res.find('"name') + 1)].split('":"')[1]
-            SIZE = res[res.find('","size') + 1:
-                       res.find('","',
-                       res.find('","size') + 1)].split('":')[1]
+            SIZE = res[res.find('","size') + 1:].split('":')[1]
             DATE_CREATE = res[res.find('"created') + 1:
                               res.find('","',
                               res.find('"created') + 1)].split('":"')[1]
